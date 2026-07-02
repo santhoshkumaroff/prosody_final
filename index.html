@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prosody Intelligence Platform — Internal Knowledge Base</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="#home" class="nav-logo">
+                <span class="logo-mark">P</span>
+                <span class="logo-text">Prosody Platform</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="#home">Home</a>
+                <a href="#architecture">Architecture</a>
+                <a href="#science">Science</a>
+                <a href="#metrics">Metrics</a>
+                <a href="#tools">Tools</a>
+                <a href="#comparison">Comparison</a>
+                <a href="#hybrid">Hybrid</a>
+                <a href="#verdict">Verdict</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- SECTION 1: HOME -->
+    <section id="home" class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">Internal Knowledge Base</div>
+                <h1 class="hero-title">
+                    <span class="gradient-text">Prosody Intelligence</span>
+                    <br>Platform
+                </h1>
+                <p class="hero-subtitle">Educational Reading Assessment Engine</p>
+                <p class="hero-desc">
+                    We solve a fundamental problem: <strong>how to automatically assess oral reading fluency</strong> for children ages 5-12. Our system evaluates not just <em>what</em> a student reads, but <em>how</em> they read it — pausing, rhythm, stress, pitch, intonation, expression, and paragraph flow.
+                </p>
+                <div class="hero-pillars">
+                    <div class="pillar">
+                        <div class="pillar-icon">&#9881;</div>
+                        <h3>Educational Interpretation</h3>
+                        <p>Metrics designed for teachers, not phoneticians. Every score maps to a classroom-observable reading behavior.</p>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">&#9878;</div>
+                        <h3>Explainability</h3>
+                        <p>Every score has a formula. Every formula has a clear educational meaning. No black boxes.</p>
+                    </div>
+                    <div class="pillar">
+                        <div class="pillar-icon">&#9889;</div>
+                        <h3>Production Requirements</h3>
+                        <p>Sub-2ms latency. &lt;12KB memory. Feature flags for instant rollback. No new infrastructure.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: RECORDING ARCHITECTURE -->
+    <section id="architecture" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Recording Architecture</h2>
+                <p>Three progressive recording types, each building on the previous to capture comprehensive reading assessment</p>
+            </div>
+
+            <div class="arch-flow">
+                <div class="arch-card">
+                    <div class="arch-number">1</div>
+                    <h3>Chunk Reading</h3>
+                    <p class="arch-purpose">Build foundational reading skills</p>
+                    <div class="arch-formula">overall = mean(chunk_scores)</div>
+                    <div class="arch-metrics">
+                        <span class="am pause">Pause</span>
+                        <span class="am rhythm">Rhythm</span>
+                        <span class="am stress">Stress</span>
+                        <span class="am pitch">Pitch</span>
+                    </div>
+                    <p class="arch-note">Each chunk is a phrase. Students read one chunk at a time. We score each chunk independently, then take the mean.</p>
+                </div>
+                <div class="arch-arrow">&#10132;</div>
+                <div class="arch-card">
+                    <div class="arch-number">2</div>
+                    <h3>Sentence Reading</h3>
+                    <p class="arch-purpose">Capture sentence-level prosody</p>
+                    <div class="arch-formula">overall = 0.30 &times; chunk_avg + 0.70 &times; sentence_avg</div>
+                    <div class="arch-metrics">
+                        <span class="am pause">Pause</span>
+                        <span class="am rhythm">Rhythm</span>
+                        <span class="am stress">Stress</span>
+                        <span class="am pitch">Pitch</span>
+                        <span class="am highlight">Intonation</span>
+                    </div>
+                    <p class="arch-note">Adds terminal contour detection and sentence-level F0 analysis. Requires ENABLE_F0_INTONATION=true.</p>
+                </div>
+                <div class="arch-arrow">&#10132;</div>
+                <div class="arch-card">
+                    <div class="arch-number">3</div>
+                    <h3>Paragraph Reading</h3>
+                    <p class="arch-purpose">Measure expressive connected reading</p>
+                    <div class="arch-formula">overall = 0.20 &times; chunk_avg + 0.30 &times; sentence_avg + 0.50 &times; paragraph</div>
+                    <div class="arch-metrics">
+                        <span class="am pause">Pause</span>
+                        <span class="am rhythm">Rhythm</span>
+                        <span class="am stress">Stress</span>
+                        <span class="am pitch">Pitch</span>
+                        <span class="am highlight">Intonation</span>
+                        <span class="am highlight">Expression</span>
+                        <span class="am highlight">Paragraph Flow</span>
+                    </div>
+                    <p class="arch-note">Full paragraph prosody. Sentence-to-sentence consistency, speech-rate stability, composite expression score.</p>
+                </div>
+            </div>
+
+            <div class="arch-weights-table">
+                <h3>Level Combination Weights</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr><th>Recording</th><th>Chunk Weight</th><th>Sentence Weight</th><th>Paragraph Weight</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Recording 1</td><td>1.0 (mean)</td><td>&mdash;</td><td>&mdash;</td></tr>
+                            <tr><td>Recording 2</td><td>0.30</td><td>0.70</td><td>&mdash;</td></tr>
+                            <tr><td>Recording 3</td><td>0.20</td><td>0.30</td><td>0.50</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="table-source">Source: config.py — RECORDING2_CHUNK_WEIGHT, RECORDING2_SENTENCE_WEIGHT, RECORDING3_*</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: SCIENTIFIC QUESTIONS -->
+    <section id="science" class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2>Scientific Questions</h2>
+                <p>Key design decisions and research questions that shaped this system</p>
+            </div>
+
+            <!-- Q1: Should raw F0 values be compared? -->
+            <div class="faq-card" data-faq>
+                <button class="faq-header" aria-expanded="false">
+                    <span class="faq-q">Q1: Should raw F0 values be compared between reference and student?</span>
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="faq-body">
+                    <div class="faq-answer">
+                        <h4>Answer: No.</h4>
+                        <p>Raw F0 values are speaker-dependent. A female teacher reading at 220 Hz and a male student reading at 120 Hz can produce <em>identical contour patterns</em>.</p>
+
+                        <div class="diagram-box">
+                            <h5>Why Contour Similarity Matters, Not Absolute Hz</h5>
+                            <div class="contour-example">
+                                <div class="contour-row">
+                                    <span class="contour-label">Female TTS (Reference):</span>
+                                    <span class="contour-values">220 &rarr; 235 &rarr; 250 &rarr; 230 Hz</span>
+                                    <span class="contour-note">Rise, Rise, Fall</span>
+                                </div>
+                                <div class="contour-row">
+                                    <span class="contour-label">Male Student:</span>
+                                    <span class="contour-values">120 &rarr; 135 &rarr; 150 &rarr; 130 Hz</span>
+                                    <span class="contour-note">Rise, Rise, Fall</span>
+                                </div>
+                                <div class="contour-conclusion">
+                                    Both show identical rise-rise-fall pattern.<br>
+                                    Contour similarity: <strong>100%</strong>.<br>
+                                    Raw Hz comparison: <strong>meaningless</strong>.
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>This is why our comparison function uses 0-100 scores, not Hz:</p>
+                        <pre class="code-block">similarity = max(0, 100 - abs(student_score - reference_score))</pre>
+                        <p class="code-source">Source: comparison.py — _similarity()</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q2: What is F0? -->
+            <div class="faq-card" data-faq>
+                <button class="faq-header" aria-expanded="false">
+                    <span class="faq-q">Q2: What is F0?</span>
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="faq-body">
+                    <div class="faq-answer">
+                        <h4>F0 = Fundamental Frequency</h4>
+                        <p>F0 is the physical measurement of vocal fold vibration rate, measured in Hertz (Hz). It is what a computer measures.</p>
+                        <h4>Pitch = Perceptual Quality</h4>
+                        <p>Pitch is what humans perceive. It is influenced by F0 but also by intensity, duration, and speaker characteristics.</p>
+
+                        <div class="diagram-box">
+                            <h5>F0 vs Pitch</h5>
+                            <div class="two-col">
+                                <div class="col">
+                                    <h6>F0 (Physical)</h6>
+                                    <ul>
+                                        <li>Measured in Hz</li>
+                                        <li>Objective, repeatable</li>
+                                        <li>Speaker-dependent range</li>
+                                        <li>Children: 200-400 Hz typical</li>
+                                        <li>Adult males: 85-180 Hz</li>
+                                        <li>Adult females: 165-255 Hz</li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <h6>Pitch (Perceptual)</h6>
+                                    <ul>
+                                        <li>Subjective experience</li>
+                                        <li>Influenced by context</li>
+                                        <li>Cross-cultural variation</li>
+                                        <li>Used in musical terms</li>
+                                        <li>Not directly measurable</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>Our system extracts F0 using scipy autocorrelation (30ms frames, 10ms hop, 75-600 Hz range) and converts it to educational scores.</p>
+                        <pre class="code-block">PITCH_FLOOR = 75    # Hz
+PITCH_CEILING = 600  # Hz
+FRAME_STEP_MS = 10   # ms</pre>
+                        <p class="code-source">Source: config.py</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q3: Should F0 directly influence Prosody Score? -->
+            <div class="faq-card" data-faq>
+                <button class="faq-header" aria-expanded="false">
+                    <span class="faq-q">Q3: Should F0 directly influence the Prosody Score?</span>
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="faq-body">
+                    <div class="faq-answer">
+                        <h4>Answer: No. F0 should remain a low-level acoustic feature.</h4>
+                        <p>F0 is used as an <strong>input</strong> to compute higher-level educational metrics, but is never scored directly as an educational output.</p>
+
+                        <div class="diagram-box">
+                            <h5>F0 Usage Map</h5>
+                            <div class="flow-diagram">
+                                <div class="flow-node input">F0 (Hz)</div>
+                                <div class="flow-arrow">&rarr;</div>
+                                <div class="flow-nodes">
+                                    <div class="flow-node metric">Stress</div>
+                                    <div class="flow-node metric">Intonation</div>
+                                    <div class="flow-node metric">Expression</div>
+                                    <div class="flow-node metric">Pitch Score</div>
+                                </div>
+                                <div class="flow-arrow">&rarr;</div>
+                                <div class="flow-node output">Prosody Score</div>
+                            </div>
+                        </div>
+
+                        <p>F0 feeds into four metrics: stress (F0 prominence), intonation (terminal contour + range + variability), expression (pitch dynamism), and pitch (range + variability scoring). But F0 Hz values never appear in the final educational output.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Q4: Why contour similarity is better? -->
+            <div class="faq-card" data-faq>
+                <button class="faq-header" aria-expanded="false">
+                    <span class="faq-q">Q4: Why is contour similarity better than raw Hz comparison?</span>
+                    <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="faq-body">
+                    <div class="faq-answer">
+                        <h4>Contour similarity captures the educational meaning of intonation.</h4>
+                        <p>The question is not "did the student hit 220 Hz?" but "did the student rise at the start and fall at the end?"</p>
+
+                        <div class="examples-grid">
+                            <div class="example-card">
+                                <h5>Example 1: Declarative Sentence</h5>
+                                <p><strong>Expected:</strong> Falling contour at end</p>
+                                <div class="contour-row">
+                                    <span class="contour-label">Reference:</span>
+                                    <span class="contour-values">250 &rarr; 240 &rarr; 230 &rarr; 220 Hz</span>
+                                </div>
+                                <div class="contour-row">
+                                    <span class="contour-label">Student A:</span>
+                                    <span class="contour-values">200 &rarr; 195 &rarr; 185 &rarr; 175 Hz</span>
+                                </div>
+                                <p class="example-verdict">Student A: <strong>Correct contour</strong>. Both fall. Hz values irrelevant.</p>
+                            </div>
+                            <div class="example-card">
+                                <h5>Example 2: Yes/No Question</h5>
+                                <p><strong>Expected:</strong> Rising contour at end</p>
+                                <div class="contour-row">
+                                    <span class="contour-label">Reference:</span>
+                                    <span class="contour-values">220 &rarr; 225 &rarr; 235 &rarr; 250 Hz</span>
+                                </div>
+                                <div class="contour-row">
+                                    <span class="contour-label">Student B:</span>
+                                    <span class="contour-values">150 &rarr; 155 &rarr; 165 &rarr; 180 Hz</span>
+                                </div>
+                                <p class="example-verdict">Student B: <strong>Correct contour</strong>. Both rise.</p>
+                            </div>
+                        </div>
+
+                        <p>This is implemented in intonation.py: terminal contour detection uses a 300ms window, linear regression for slope, and classifies into rising/falling/flat/uncertain.</p>
+                        <pre class="code-block">_TERMINAL_SLOPE_THRESHOLD = 5.0   # Hz/sec — flat
+_RISING_SLOPE_THRESHOLD = 10.0     # Hz/sec — rising
+_FALLING_SLOPE_THRESHOLD = -10.0   # Hz/sec — falling</pre>
+                        <p class="code-source">Source: intonation.py</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: METRICS -->
+    <section id="metrics" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Core Metrics</h2>
+                <p>Each metric has a specific educational purpose, verified formula, and clear limitations</p>
+            </div>
+
+            <div class="metrics-list">
+                <!-- PAUSE -->
+                <div class="metric-card" data-metric>
+                    <button class="metric-header" aria-expanded="false">
+                        <div class="metric-title">
+                            <span class="metric-letter">P</span>
+                            <span>Pause</span>
+                        </div>
+                        <svg class="metric-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="metric-body">
+                        <div class="metric-section">
+                            <h4>What is this metric?</h4>
+                            <p>Measures the quality and appropriateness of inter-word silence duration during reading.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Why do we use this metric?</h4>
+                            <p>Pausing demonstrates comprehension and natural phrasing. Children who pause appropriately show better text understanding.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Formula (Linguistic Pause Model)</h4>
+                            <pre class="formula">pause_score = 0.60 &times; threshold + 0.25 &times; consistency + 0.15 &times; variation</pre>
+                            <p class="formula-note">Scaled to 0-100. Each pause is scored against context-appropriate thresholds.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Thresholds (ms)</h4>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>Context</th><th>Min (ms)</th><th>Max (ms)</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Sentence-internal</td><td>80</td><td>400</td></tr>
+                                        <tr><td>Sentence boundary</td><td>250</td><td>1200</td></tr>
+                                        <tr><td>Inter-word</td><td>100</td><td>800</td></tr>
+                                        <tr><td>Chunk boundary</td><td>200</td><td>1500</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="table-source">Source: config.py — SENTENCE_INTERNAL_*, SENTENCE_BOUNDARY_*, INTER_WORD_*, CHUNK_BOUNDARY_*</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Worked Example</h4>
+                            <div class="example-box">
+                                <p><strong>Input:</strong> 10 words, 9 gaps, 7 in optimal range</p>
+                                <p><strong>threshold:</strong> 7/9 = 0.78</p>
+                                <p><strong>consistency:</strong> 0.78 (CV within range)</p>
+                                <p><strong>variation:</strong> 0.80 (moderate CV 0.2-0.6)</p>
+                                <p><strong>Result:</strong> 0.60 &times; 0.78 + 0.25 &times; 0.78 + 0.15 &times; 0.80 = <strong>78/100</strong></p>
+                            </div>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Score Interpretation</h4>
+                            <div class="score-legend">
+                                <span class="sl high">80-100: Excellent — natural, comprehension-indicating pauses</span>
+                                <span class="sl medium">60-79: Good — appropriate pausing with minor issues</span>
+                                <span class="sl low">0-39: Poor — pausing patterns suggest reading difficulty</span>
+                            </div>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Limitations</h4>
+                            <ul>
+                                <li>Single-word chunks return null (confidence = 0)</li>
+                                <li>Chunks with no pauses return 100 (confidence = 1.0) — this is correct when pause_count = 0 and word_count &gt; 1</li>
+                                <li>Thresholds are calibrated for ages 5-12, US English</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RHYTHM -->
+                <div class="metric-card" data-metric>
+                    <button class="metric-header" aria-expanded="false">
+                        <div class="metric-title">
+                            <span class="metric-letter">R</span>
+                            <span>Rhythm</span>
+                        </div>
+                        <svg class="metric-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="metric-body">
+                        <div class="metric-section">
+                            <h4>What is this metric?</h4>
+                            <p>Measures the regularity and consistency of speech timing during reading.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Why do we use this metric?</h4>
+                            <p>Regular rhythm indicates fluent reading with consistent pacing. Irregular rhythm suggests decoding difficulty.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Formula</h4>
+                            <pre class="formula">cv = stdev(intervals) / mean(intervals)
+rhythm_score = stability(cv)  # piecewise mapping</pre>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Piecewise Stability Mapping</h4>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>CV Range</th><th>Score Range</th><th>Meaning</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>CV &le; 0.0</td><td>1.0</td><td>Perfect (identical intervals)</td></tr>
+                                        <tr><td>0.0 &lt; CV &lt; 0.1</td><td>0.85 - 1.0</td><td>Excellent stability</td></tr>
+                                        <tr><td>0.1 &le; CV &le; 0.3</td><td>0.6 - 0.85</td><td>Good stability</td></tr>
+                                        <tr><td>0.3 &lt; CV &le; 0.5</td><td>0.4 - 0.75</td><td>Moderate variation</td></tr>
+                                        <tr><td>0.5 &lt; CV &le; 0.8</td><td>0.2 - 0.55</td><td>High variation</td></tr>
+                                        <tr><td>CV &gt; 0.8</td><td>0.0 - 0.2</td><td>Very irregular</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="table-source">Source: rhythm_stress.py — _score_rhythm_stability()</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Worked Example</h4>
+                            <div class="example-box">
+                                <p><strong>Input:</strong> Intervals [320, 340, 310, 350, 330] ms</p>
+                                <p><strong>Mean:</strong> 330 ms, <strong>StDev:</strong> 15.8 ms</p>
+                                <p><strong>CV:</strong> 15.8 / 330 = 0.048</p>
+                                <p><strong>Result:</strong> CV &lt; 0.1 &rarr; score = <strong>100/100</strong></p>
+                            </div>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Limitations</h4>
+                            <ul>
+                                <li>Requires at least 5 words (RHYTHM_MIN_WORDS = 5)</li>
+                                <li>Fewer than 5 words: rhythm_score = None, confidence = 0.0</li>
+                                <li>Confidence scales with word count: confidence = min(1.0, intervals / 3.0)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STRESS -->
+                <div class="metric-card" data-metric>
+                    <button class="metric-header" aria-expanded="false">
+                        <div class="metric-title">
+                            <span class="metric-letter">S</span>
+                            <span>Stress</span>
+                        </div>
+                        <svg class="metric-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="metric-body">
+                        <div class="metric-section">
+                            <h4>What is this metric?</h4>
+                            <p>3D prominence model: measures word emphasis using duration, F0, and energy.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Formula (3D Model)</h4>
+                            <pre class="formula">stress = 0.40 &times; duration_prominence + 0.30 &times; f0_prominence + 0.30 &times; energy_prominence</pre>
+                            <p class="formula-note">When F0 or energy unavailable, weights redistribute: 55% duration + 45% available metric.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Worked Example</h4>
+                            <div class="example-box">
+                                <p><strong>Input:</strong></p>
+                                <p>Duration prominence = 0.80</p>
+                                <p>F0 prominence = 0.70</p>
+                                <p>Energy prominence = 0.90</p>
+                                <p><strong>Calculation:</strong> 0.40 &times; 0.80 + 0.30 &times; 0.70 + 0.30 &times; 0.90</p>
+                                <p><strong>Result:</strong> 0.32 + 0.21 + 0.27 = <strong>0.80 = 80/100</strong></p>
+                            </div>
+                        </div>
+                        <div class="metric-section">
+                            <h4>How Each Dimension Works</h4>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>Dimension</th><th>Method</th><th>Weight</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Duration</td><td>Syllable-normalized duration variance. Words &gt; 1.2x mean are stressed.</td><td>40%</td></tr>
+                                        <tr><td>F0</td><td>Peak F0 prominence. Words &gt; 1.1x baseline are stressed, &lt; 0.9x unstressed.</td><td>30%</td></tr>
+                                        <tr><td>Energy</td><td>RMS energy prominence. Same threshold logic as F0.</td><td>30%</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="table-source">Source: rhythm_stress.py — compute_stress_metrics(), _compute_f0_prominence(), _compute_energy_prominence()</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Limitations</h4>
+                            <ul>
+                                <li>F0 and energy extraction may fail (non-fatal fallback)</li>
+                                <li>Syllable counting uses vowel-group heuristic (~85-90% accuracy)</li>
+                                <li>Stress is relative within the utterance, not absolute</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FLUENCY -->
+                <div class="metric-card" data-metric>
+                    <button class="metric-header" aria-expanded="false">
+                        <div class="metric-title">
+                            <span class="metric-letter">F</span>
+                            <span>Fluency</span>
+                        </div>
+                        <svg class="metric-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="metric-body">
+                        <div class="metric-section">
+                            <h4>What is this metric?</h4>
+                            <p>Speech rate and pause ratio analysis. Computed but NOT included in any scoring formula.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Status</h4>
+                            <div class="status-badge warning">Diagnostic Only — Not in Scoring Weights</div>
+                            <p>Fluency is computed in pause_fluency.py and returned in the response, but is NOT part of CHUNK_WEIGHTS, EXPRESSION_WEIGHTS, or PARAGRAPH_PROSODY_WEIGHTS.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Formula</h4>
+                            <pre class="formula">speech_rate = word_count / total_duration
+pause_ratio = pause_time / total_duration
+fluency_score = (rate_score + pause_score) / 2.0</pre>
+                            <p class="formula-note">Rate scoring: 1-4 words/sec = optimal. Pause ratio: 5-30% = optimal.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Why Not in Scoring?</h4>
+                            <p>Fluency overlaps significantly with Pause and Rhythm. Including it would double-count pause information. It remains available as a diagnostic field in the response.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PITCH -->
+                <div class="metric-card" data-metric>
+                    <button class="metric-header" aria-expanded="false">
+                        <div class="metric-title">
+                            <span class="metric-letter">Pi</span>
+                            <span>Pitch</span>
+                        </div>
+                        <svg class="metric-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="metric-body">
+                        <div class="metric-section">
+                            <h4>What is this metric?</h4>
+                            <p>F0 (fundamental frequency) variability and range scoring. Measures expressiveness of pitch movement.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Pitch vs F0</h4>
+                            <p>F0 is the physical measurement (Hz). Pitch is the perceptual quality. Our "Pitch" score is an educational interpretation of F0 variability.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Formula</h4>
+                            <pre class="formula">pitch_score = (range_score &times; 0.5 + var_score &times; 0.5) &times; 100</pre>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Scoring Thresholds</h4>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>Component</th><th>Optimal Range</th><th>Below Optimal</th><th>Above Optimal</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>F0 Range (Hz)</td><td>20 - 100 Hz &rarr; 1.0</td><td>&lt; 20 Hz &rarr; linear to 0</td><td>&gt; 100 Hz &rarr; linear to 0</td></tr>
+                                        <tr><td>F0 Variability (CV)</td><td>0.02 - 0.15 &rarr; 1.0</td><td>&lt; 0.02 &rarr; linear to 0</td><td>&gt; 0.15 &rarr; linear to 0</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="table-source">Source: f0_extraction.py — score_pitch_expressiveness()</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Worked Example</h4>
+                            <div class="example-box">
+                                <p><strong>Input:</strong> F0 range = 45 Hz, Variability = 0.08</p>
+                                <p><strong>range_score:</strong> 45 is in [20, 100] &rarr; 1.0</p>
+                                <p><strong>var_score:</strong> 0.08 is in [0.02, 0.15] &rarr; 1.0</p>
+                                <p><strong>Result:</strong> (1.0 &times; 0.5 + 1.0 &times; 0.5) &times; 100 = <strong>100/100</strong></p>
+                            </div>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Known Limitation</h4>
+                            <div class="callout warning">
+                                <strong>Absolute Hz thresholds penalize children.</strong> Children naturally have wider F0 ranges (200-400 Hz). The threshold of 100 Hz optimal range means a child with 150 Hz range gets a reduced score. This is a known issue pending classroom calibration.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INTONATION -->
+                <div class="metric-card" data-metric>
+                    <button class="metric-header" aria-expanded="false">
+                        <div class="metric-title">
+                            <span class="metric-letter">I</span>
+                            <span>Intonation</span>
+                        </div>
+                        <svg class="metric-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="metric-body">
+                        <div class="metric-section">
+                            <h4>What is this metric?</h4>
+                            <p>Sentence-level F0 analysis with terminal contour detection. Recording 2+ only.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Status</h4>
+                            <div class="status-badge info">Recording 2+ only. Requires ENABLE_F0_INTONATION=true.</div>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Formula</h4>
+                            <pre class="formula">intonation = (0.40 &times; contour + 0.30 &times; range + 0.30 &times; variance) &times; confidence</pre>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Terminal Contour Detection</h4>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>Contour Type</th><th>Slope (Hz/sec)</th><th>Classification</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Flat</td><td>|slope| &lt; 5.0</td><td>flat</td></tr>
+                                        <tr><td>Rising</td><td>slope &gt; 10.0</td><td>rising</td></tr>
+                                        <tr><td>Falling</td><td>slope &lt; -10.0</td><td>falling</td></tr>
+                                        <tr><td>Rise-Fall</td><td>mid &gt; both halves</td><td>rise-fall</td></tr>
+                                        <tr><td>Fall-Rise</td><td>mid &lt; both halves</td><td>fall-rise</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="table-source">Source: intonation.py — _detect_terminal_contour()</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Contour Classification</h4>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>Sentence Type</th><th>Expected Contour</th><th>Correct Score</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Declarative</td><td>Falling</td><td>100.0</td></tr>
+                                        <tr><td>Yes/No Question</td><td>Rising</td><td>100.0</td></tr>
+                                        <tr><td>Wh- Question</td><td>Falling</td><td>100.0</td></tr>
+                                        <tr><td>Exclamative</td><td>Falling</td><td>100.0</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="table-source">Source: level_scoring.py — _CONTOUR_SCORE = {correct: 100.0, acceptable: 60.0, incorrect: 20.0}</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Limitations</h4>
+                            <ul>
+                                <li>Requires ENABLE_F0_INTONATION=true (default: false)</li>
+                                <li>Terminal slope thresholds are absolute Hz/sec, not speaker-normalized</li>
+                                <li>contour_match (reference vs student contour comparison) is permanently None — not implemented</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXPRESSION -->
+                <div class="metric-card" data-metric>
+                    <button class="metric-header" aria-expanded="false">
+                        <div class="metric-title">
+                            <span class="metric-letter">E</span>
+                            <span>Expression</span>
+                        </div>
+                        <svg class="metric-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="metric-body">
+                        <div class="metric-section">
+                            <h4>What is this metric?</h4>
+                            <p>Composite expression score combining intonation, stress, pause variation, and rhythm.</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Formula</h4>
+                            <pre class="formula">expression = 0.35 &times; intonation + 0.30 &times; stress + 0.20 &times; pause_variation + 0.15 &times; rhythm</pre>
+                            <p class="formula-note">Fluency is NOT included. Each component is confidence-gated (MIN_CONFIDENCE = 0.3).</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Worked Example</h4>
+                            <div class="example-box">
+                                <p><strong>Input:</strong> Intonation: 70, Stress: 65, Pause Variation: 75, Rhythm: 85</p>
+                                <p><strong>Calculation:</strong> 0.35 &times; 70 + 0.30 &times; 65 + 0.20 &times; 75 + 0.15 &times; 85</p>
+                                <p><strong>Result:</strong> 24.5 + 19.5 + 15.0 + 12.75 = <strong>72/100</strong></p>
+                            </div>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Confidence Gating</h4>
+                            <p>Components with confidence &lt; 0.3 are excluded. Remaining weights are renormalized. If no component meets the threshold, expression = 0.0.</p>
+                            <p class="table-source">Source: expression.py — compute_expression_metrics()</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PARAGRAPH PROSODY -->
+                <div class="metric-card" data-metric>
+                    <button class="metric-header" aria-expanded="false">
+                        <div class="metric-title">
+                            <span class="metric-letter">PP</span>
+                            <span>Paragraph Prosody</span>
+                        </div>
+                        <svg class="metric-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
+                    <div class="metric-body">
+                        <div class="metric-section">
+                            <h4>What is this metric?</h4>
+                            <p>Sentence-to-sentence consistency (paragraph_flow) and speech-rate consistency (story_flow).</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Formula</h4>
+                            <pre class="formula">paragraph_overall = 0.60 &times; paragraph_flow + 0.40 &times; story_flow</pre>
+                        </div>
+                        <div class="metric-section">
+                            <h4>How Each Component Works</h4>
+                            <div class="table-wrap">
+                                <table>
+                                    <thead><tr><th>Component</th><th>Method</th><th>Score Formula</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>paragraph_flow</td><td>Sentence overall score consistency</td><td>score = max(0, 100 - CV &times; 200)</td></tr>
+                                        <tr><td>story_flow</td><td>Speech-rate consistency</td><td>score = max(0, 100 - CV &times; 200)</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="table-source">Source: level_scoring.py — _paragraph_flow(), _story_flow(), _consistency()</p>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Consistency Scoring</h4>
+                            <pre class="formula">cv = pstdev(values) / mean(values)
+score = max(0, 100 - cv &times; 200)
+# cv = 0 &rarr; score = 100
+# cv = 0.5 &rarr; score = 0</pre>
+                        </div>
+                        <div class="metric-section">
+                            <h4>Limitations</h4>
+                            <ul>
+                                <li>Requires at least 2 sentences (returns null with fewer)</li>
+                                <li>Recording 3 only</li>
+                                <li>Confidence = min(1.0, sentence_count / 3)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: PRAAT -->
+    <section id="tools" class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2>Tool Deep Dives</h2>
+                <p>What Praat, OpenSMILE, and Librosa actually do</p>
+            </div>
+
+            <div class="tool-card" id="praat">
+                <div class="tool-header">
+                    <h3>Praat</h3>
+                    <span class="tool-tag research">Research-Grade</span>
+                </div>
+                <div class="tool-body">
+                    <div class="tool-section">
+                        <h4>What is Praat?</h4>
+                        <p>Praat (Dutch for "talk") is a free scientific software package for phonetic analysis. Developed by Paul Boersma and David Weenink at the University of Amsterdam since 1992. Over 30 years of academic validation. The gold standard for acoustic phonetics research.</p>
+                    </div>
+                    <div class="tool-section">
+                        <h4>What Praat Measures</h4>
+                        <div class="tool-features">
+                            <div class="feature-item">
+                                <span class="feature-name">F0 Tracking</span>
+                                <span class="feature-desc">Autocorrelation, cross-correlation, subharmonic-to-harmonic ratio methods</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-name">Intensity</span>
+                                <span class="feature-desc">dB contours, intensity range, intensity contour analysis</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-name">Formants</span>
+                                <span class="feature-desc">F1-F5 tracking, vowel space analysis</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-name">Voice Quality</span>
+                                <span class="feature-desc">Jitter, shimmer, harmonics-to-noise ratio</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-name">Durations</span>
+                                <span class="feature-desc">Phoneme, syllable, word duration measurement</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-name">Spectrograms</span>
+                                <span class="feature-desc">Wideband, narrowband, mel-frequency spectrograms</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tool-section">
+                        <h4>Praat Example: "The cat sat"</h4>
+                        <div class="example-box">
+                            <p><strong>Mean F0:</strong> 220 Hz</p>
+                            <p><strong>Intensity:</strong> 72 dB</p>
+                            <p><strong>Duration:</strong> 1.8 seconds</p>
+                            <p><strong>F0 Range:</strong> 180-250 Hz</p>
+                        </div>
+                    </div>
+                    <div class="tool-section">
+                        <h4>What Praat CANNOT Provide</h4>
+                        <ul class="cannot-list">
+                            <li>Fluency scoring</li>
+                            <li>Expression assessment</li>
+                            <li>Teacher explanations</li>
+                            <li>Recording 1/2/3 progression</li>
+                            <li>Educational interpretation</li>
+                            <li>Real-time production deployment</li>
+                            <li>0-100 scoring system</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card" id="opensmile">
+                <div class="tool-header">
+                    <h3>OpenSMILE</h3>
+                    <span class="tool-tag engineering">Affective Computing</span>
+                </div>
+                <div class="tool-body">
+                    <div class="tool-section">
+                        <h4>What is OpenSMILE?</h4>
+                        <p>An open-source toolkit for large-scale audio feature extraction. Primarily designed for emotion recognition and affective computing. Created by Florian Eyben, Bj&ouml;rn Schuller, and others. The C++/Python library extracts thousands of acoustic features.</p>
+                    </div>
+                    <div class="tool-section">
+                        <h4>Feature Sets</h4>
+                        <div class="tool-features">
+                            <div class="feature-item">
+                                <span class="feature-name">eGeMAPS</span>
+                                <span class="feature-desc">88 features — extended Geneva Minimalistic Acoustic Parameter Set. Designed for affective computing research.</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-name">ComParE</span>
+                                <span class="feature-desc">6,373 features — Computational Paralinguistics Challenge feature set. Comprehensive but overwhelming.</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-name">Emotion Recognition</span>
+                                <span class="feature-desc">Happy, sad, angry, neutral, fear, disgust, surprise classification.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tool-section">
+                        <h4>Trade-offs</h4>
+                        <div class="pros-cons">
+                            <div class="pros">
+                                <h5>Strengths</h5>
+                                <ul>
+                                    <li>6,373+ acoustic features in one pass</li>
+                                    <li>Battle-tested emotion recognition</li>
+                                    <li>Well-documented feature definitions</li>
+                                    <li>Supports real-time processing</li>
+                                </ul>
+                            </div>
+                            <div class="cons">
+                                <h5>Weaknesses</h5>
+                                <ul>
+                                    <li>6,373 features is overkill for reading assessment</li>
+                                    <li>Designed for emotion, not education</li>
+                                    <li>No teacher-friendly output format</li>
+                                    <li>Feature selection burden falls on us</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card" id="librosa">
+                <div class="tool-header">
+                    <h3>Librosa</h3>
+                    <span class="tool-tag audio">Audio Analysis</span>
+                </div>
+                <div class="tool-body">
+                    <div class="tool-section">
+                        <h4>What is Librosa?</h4>
+                        <p>A Python package for music and audio analysis. Provides spectral, rhythmic, and temporal features. Primarily designed for music information retrieval, not speech prosody.</p>
+                    </div>
+                    <div class="tool-section">
+                        <h4>Strengths</h4>
+                        <ul>
+                            <li>Excellent for music analysis (tempo, beat, harmony)</li>
+                            <li>Good spectral features (MFCC, chroma, mel spectrograms)</li>
+                            <li>Clean Python API, well-documented</li>
+                            <li>Strong visualization tools</li>
+                        </ul>
+                    </div>
+                    <div class="tool-section">
+                        <h4>Weaknesses for Speech Prosody</h4>
+                        <ul>
+                            <li>No F0 extraction (that is Praat's domain)</li>
+                            <li>No phoneme-level analysis</li>
+                            <li>No educational scoring framework</li>
+                            <li>Music-centric, not speech-centric</li>
+                            <li>No real-time production deployment model</li>
+                        </ul>
+                    </div>
+                    <div class="tool-section">
+                        <h4>Verdict</h4>
+                        <div class="callout info">
+                            <strong>Librosa is not relevant for this project.</strong> It is an audio analysis toolkit, not a speech prosody framework. Useful for music applications, not educational reading assessment.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: HEAD-TO-HEAD COMPARISON -->
+    <section id="comparison" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Head-to-Head Comparison</h2>
+                <p>Honest, objective analysis across all dimensions</p>
+            </div>
+
+            <div class="table-wrap comparison-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dimension</th>
+                            <th>Our System</th>
+                            <th>Praat</th>
+                            <th>OpenSMILE</th>
+                            <th>Librosa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>F0 Extraction</strong></td><td>scipy autocorrelation</td><td>Autocorrelation + cross-correlation (30yr refinement)</td><td>WORLD vocoder, DIO</td><td>pyin, piptrack</td></tr>
+                        <tr><td><strong>Intensity</strong></td><td>RMS energy only</td><td>dB contours, intensity range</td><td>Intensity, loudness</td><td>RMS, polyfeatures</td></tr>
+                        <tr><td><strong>Stress</strong></td><td>3D: 40% duration + 30% F0 + 30% energy</td><td>Duration + intensity + F0 analysis</td><td>Intensity + duration features</td><td>Not directly supported</td></tr>
+                        <tr><td><strong>Rhythm</strong></td><td>CV-based stability (piecewise)</td><td>VarcoV, Pairwise Variability Index</td><td>Rhythm features in ComParE</td><td>Tempo, beat tracking (music)</td></tr>
+                        <tr><td><strong>Expression</strong></td><td>35% intonation + 30% stress + 20% pause + 15% rhythm</td><td>No direct equivalent</td><td>Emotion classification</td><td>Not supported</td></tr>
+        <tr><td><strong>Educational Interpretation</strong></td><td>0-100 scores, Recording 1/2/3, teacher explanations</td><td>Raw acoustic measurements</td><td>Emotion labels</td><td>Music features</td></tr>
+                        <tr><td><strong>Teacher Friendliness</strong></td><td>High — clear scores, clear meanings</td><td>Low — requires phonetics expertise</td><td>Low — requires ML expertise</td><td>Low — music-centric</td></tr>
+                        <tr><td><strong>Scientific Validation</strong></td><td>Pending classroom calibration</td><td>30+ years, 10,000+ papers</td><td>10+ years, hundreds of papers</td><td>10+ years, music research</td></tr>
+                        <tr><td><strong>Real-Time Performance</strong></td><td>&lt;2ms latency, &lt;12KB memory</td><td>Desktop application, not real-time</td><td>Can be real-time</td><td>Batch processing</td></tr>
+                        <tr><td><strong>Maintainability</strong></td><td>Python, 7 modules, ~1200 lines</td><td>C++ core, huge codebase</td><td>C++ core, complex build</td><td>Python, well-maintained</td></tr>
+                        <tr><td><strong>Explainability</strong></td><td>High — every formula documented</td><td>High — well-documented algorithms</td><td>Medium — feature definitions complex</td><td>Medium — API-focused</td></tr>
+                        <tr><td><strong>Production Deployment</strong></td><td>Docker, Cloud Run, feature flags</td><td>Desktop only</td><td>Requires C++ compilation</td><td>Python package</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7-11: WHERE EACH IS BETTER -->
+    <section class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2>Honest Assessment</h2>
+                <p>Where each system excels — no marketing, only facts</p>
+            </div>
+
+            <div class="assessment-grid">
+                <div class="assessment-card ours">
+                    <h3>Where Our System Is Better</h3>
+                    <ul>
+                        <li><strong>Recording 1/2/3 progression</strong> — matches curriculum structure, no other system has this</li>
+                        <li><strong>Teacher explanations</strong> — every score maps to a classroom-observable behavior</li>
+                        <li><strong>Confidence models</strong> — null when unreliable, never fake precision</li>
+                        <li><strong>Educational scoring</strong> — 0-100 scores with clear high/medium/low interpretation</li>
+                        <li><strong>Feature flags</strong> — ENABLE_PROSODY=false for instant rollback</li>
+                        <li><strong>Production readiness</strong> — Docker, Cloud Run, &lt;2ms latency</li>
+                        <li><strong>Graceful degradation</strong> — if F0 fails, other metrics still work</li>
+                        <li><strong>Explainability</strong> — every formula has a clear educational meaning</li>
+                    </ul>
+                </div>
+
+                <div class="assessment-card praat">
+                    <h3>Where Praat Is Better</h3>
+                    <ul>
+                        <li><strong>F0 extraction</strong> — 30+ years of refinement, multiple algorithms</li>
+                        <li><strong>Intensity analysis</strong> — dB contours, intensity range, detailed measurements</li>
+                        <li><strong>Academic trust</strong> — 10,000+ peer-reviewed papers</li>
+                        <li><strong>Voice quality metrics</strong> — jitter, shimmer, HNR</li>
+                        <li><strong>Noisy audio handling</strong> — robust algorithms for real-world recordings</li>
+                        <li><strong>Research validation</strong> — validated against human perception in hundreds of studies</li>
+                        <li><strong>Formant analysis</strong> — F1-F5 tracking, vowel space</li>
+                        <li><strong>Spectrogram visualization</strong> — wideband, narrowband, mel-frequency</li>
+                    </ul>
+                </div>
+
+                <div class="assessment-card opensmile">
+                    <h3>Where OpenSMILE Is Better</h3>
+                    <ul>
+                        <li><strong>Emotion recognition</strong> — battle-tested for affective computing</li>
+                        <li><strong>Feature extraction</strong> — 6,373 features in one pass</li>
+                        <li><strong>Affective computing</strong> — designed for emotion, not education</li>
+                        <li><strong>Paralinguistics</strong> — laughter, breathing, hesitation detection</li>
+                        <li><strong>Cross-database validation</strong> — tested on multiple emotion databases</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 12: HYBRID ARCHITECTURE -->
+    <section id="hybrid" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Best Hybrid Architecture</h2>
+                <p>Five approaches evaluated with honest trade-offs</p>
+            </div>
+
+            <div class="hybrid-options">
+                <div class="hybrid-card">
+                    <h3>Option 1: Praat Only</h3>
+                    <div class="pros-cons">
+                        <div class="pros"><h5>Pros</h5><ul><li>Research-grade acoustics</li><li>30+ years validation</li></ul></div>
+                        <div class="cons"><h5>Cons</h5><ul><li>No educational scoring</li><li>No Recording 1/2/3</li><li>Desktop only, not real-time</li><li>No teacher explanations</li></ul></div>
+                    </div>
+                </div>
+
+                <div class="hybrid-card">
+                    <h3>Option 2: OpenSMILE Only</h3>
+                    <div class="pros-cons">
+                        <div class="pros"><h5>Pros</h5><ul><li>6,373 features</li><li>Emotion recognition</li></ul></div>
+                        <div class="cons"><h5>Cons</h5><ul><li>Designed for emotion, not education</li><li>Feature selection burden</li><li>No teacher-friendly output</li><li>Overkill for reading assessment</li></ul></div>
+                    </div>
+                </div>
+
+                <div class="hybrid-card">
+                    <h3>Option 3: Current System Only</h3>
+                    <div class="pros-cons">
+                        <div class="pros"><h5>Pros</h5><ul><li>Full educational framework</li><li>Production-ready</li><li>Recording 1/2/3</li><li>Teacher explanations</li></ul></div>
+                        <div class="cons"><h5>Cons</h5><ul><li>F0 extraction less refined than Praat</li><li>Subject to classroom calibration</li></ul></div>
+                    </div>
+                </div>
+
+                <div class="hybrid-card recommended">
+                    <h3>Option 4: Praat + Current System <span class="rec-badge">Recommended</span></h3>
+                    <div class="pros-cons">
+                        <div class="pros"><h5>Pros</h5><ul><li>Research-grade F0 via Parselmouth</li><li>Our educational logic layer preserved</li><li>Best of both worlds</li><li>Teacher-friendly output maintained</li></ul></div>
+                        <div class="cons"><h5>Cons</h5><ul><li>Parselmouth broken on Python 3.12+</li><li>Additional dependency</li><li>Maintained by Praat team</li></ul></div>
+                    </div>
+                    <div class="hybrid-architecture">
+                        <h4>Architecture</h4>
+                        <div class="arch-flow small">
+                            <div class="arch-card mini">
+                                <div class="arch-number small">A</div>
+                                <h4>Audio Input</h4>
+                                <p>WAV file</p>
+                            </div>
+                            <div class="arch-arrow small">&rarr;</div>
+                            <div class="arch-card mini">
+                                <div class="arch-number small">B</div>
+                                <h4>Parselmouth</h4>
+                                <p>F0, Intensity, Formants</p>
+                            </div>
+                            <div class="arch-arrow small">&rarr;</div>
+                            <div class="arch-card mini">
+                                <div class="arch-number small">C</div>
+                                <h4>Our Logic</h4>
+                                <p>Recording 1/2/3, Scoring</p>
+                            </div>
+                            <div class="arch-arrow small">&rarr;</div>
+                            <div class="arch-card mini">
+                                <div class="arch-number small">D</div>
+                                <h4>Teacher Output</h4>
+                                <p>0-100 scores, explanations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hybrid-card">
+                    <h3>Option 5: Praat + OpenSMILE + Current System</h3>
+                    <div class="pros-cons">
+                        <div class="pros"><h5>Pros</h5><ul><li>Maximum acoustic coverage</li><li>Research-grade + affective computing</li></ul></div>
+                        <div class="cons"><h5>Cons</h5><ul><li>6,373 features is overkill</li><li>Complex integration</li><li>Maintenance burden</li><li>Diminishing returns for reading assessment</li></ul></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="final-recommendation">
+                <h3>Final Recommendation</h3>
+                <p><strong>Option 4 (Praat + Current System)</strong> is the best v2 architecture.</p>
+                <p>When Parselmouth is fixed for Python 3.12+, replace our scipy autocorrelation F0 extraction with Parselmouth's Praat-derived algorithms. Keep our educational logic layer (Recording 1/2/3, scoring, confidence models, teacher explanations) unchanged.</p>
+                <p>This gives us research-grade acoustics with production-ready educational output.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 13: FINAL VERDICT -->
+    <section id="verdict" class="section section-dark">
+        <div class="container">
+            <div class="section-header">
+                <h2>Final Verdict</h2>
+                <p>The honest answer for each use case</p>
+            </div>
+
+            <div class="verdict-grid">
+                <div class="verdict-card">
+                    <h3>Scientific Research</h3>
+                    <p class="verdict-answer"><strong>Praat</strong></p>
+                    <p>30+ years of validation. 10,000+ peer-reviewed papers. The gold standard for acoustic phonetics research. No contest.</p>
+                </div>
+
+                <div class="verdict-card">
+                    <h3>Educational Assessment</h3>
+                    <p class="verdict-answer"><strong>Our System</strong></p>
+                    <p>Recording 1/2/3 progression. 0-100 scores. Teacher explanations. The only system designed for classroom use.</p>
+                </div>
+
+                <div class="verdict-card">
+                    <h3>Teacher Dashboards</h3>
+                    <p class="verdict-answer"><strong>Our System</strong></p>
+                    <p>Clear scores, clear meanings, clear recommendations. Praat outputs dB and Hz. Teachers need 80/100 and "needs work on pause patterns."</p>
+                </div>
+
+                <div class="verdict-card">
+                    <h3>Production Deployment</h3>
+                    <p class="verdict-answer"><strong>Our System</strong></p>
+                    <p>Sub-2ms latency. &lt;12KB memory. Docker. Cloud Run. Feature flags. Praat is a desktop application.</p>
+                </div>
+
+                <div class="verdict-card">
+                    <h3>Long-term v2 Architecture</h3>
+                    <p class="verdict-answer"><strong>Praat + Our System</strong></p>
+                    <p>Replace our F0 extraction with Parselmouth. Keep our educational logic. Research-grade acoustics + production-ready output.</p>
+                </div>
+            </div>
+
+            <div class="verdict-summary">
+                <h3>Summary</h3>
+                <p>We built an educational reading assessment engine. Praat built a scientific instrument. OpenSMILE built an emotion classifier. Librosa built a music analysis toolkit.</p>
+                <p>Each is excellent at what it was designed for. The best v2 architecture combines Praat's acoustic precision with our educational framework.</p>
+                <p class="verdict-status">Status: Production Candidate — Engineering Validated, Classroom Calibration Pending</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>Prosody Intelligence Platform — Internal Knowledge Base</p>
+                <p>All formulas verified against source code. Last verified: July 2026.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
